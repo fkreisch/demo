@@ -1,15 +1,8 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
-export interface Demo {
-  email: string;
-  phone: [];
-}
-export interface DemoId extends Demo {
-  id: string;
-}
+import { Demo, DemoId } from './interface';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +10,7 @@ export interface DemoId extends Demo {
 export class DemoService {
 
   private demoCollection: AngularFirestoreCollection<Demo>;
+  private demoDoc: AngularFirestoreDocument<Demo>;
   demo: Observable<DemoId[]>;
 
   constructor(public afs: AngularFirestore) {
@@ -38,5 +32,17 @@ export class DemoService {
   addDemo(doc: Demo) {
     console.log ('POST DATA:', doc);
     this.demoCollection.add(doc);
+  }
+
+  deleteDemo(doc: DemoId) {
+    console.log ('DELETE DATA:', doc);
+    this.demoDoc = this.afs.doc(`demo/${doc.id}`);
+    this.demoDoc.delete();
+  }
+
+  updateDemo(doc: Demo, id: string) {
+    this.demoDoc = this.afs.doc(`demo/${id}`);
+    this.demoDoc.set(doc, {merge: true});
+    console.log ('UPDATE - demo', doc, id);
   }
 }

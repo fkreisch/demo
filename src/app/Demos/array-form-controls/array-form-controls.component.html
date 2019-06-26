@@ -1,0 +1,54 @@
+<mat-card>
+    <mat-card-title>
+        Recipes Collection
+    </mat-card-title>
+    <ul class="collection" *ngFor="let item of demo; let i=index">
+        <li class="collection-item"><strong>{{item.record}}</strong> {{item.id}}
+            <a href="#" class="secondary-content float-right">
+                <i (click)="editForms($event, item, item.fields)" class="fa fa-pencil" aria-hidden="true"></i>
+            </a>
+            <div *ngIf="editState && itemToEdit.id == item.id">
+
+                <mat-card>
+                    <mat-card-title>
+                        Modify Record
+                    </mat-card-title>
+                    <form [formGroup]="myForm">
+
+                        <mat-form-field class="full">
+                            <input matInput placeholder="Record" formControlName="record" [(ngModel)]="item.record">
+                        </mat-form-field>
+                        <mat-card>
+                            <mat-card-subtitle>
+                                Fields
+                            </mat-card-subtitle>
+                            <div formArrayName="fields">
+
+                                <div *ngFor="let field of fieldForms.controls; let i=index" [formGroupName]="i">
+                                    <mat-form-field>
+                                        <input matInput placeholder="Field 1" formControlName="field1">
+                                    </mat-form-field>
+
+                                    <mat-form-field>
+                                        <input matInput placeholder="Field 2" formControlName="field2">
+                                    </mat-form-field>
+
+                                    <mat-form-field>
+                                        <input matInput placeholder="Field 3" formControlName="field3">
+                                    </mat-form-field>
+
+                                    <button mat-raised-button color="warn" (click)="deleteFields(i)">Delete</button>
+
+                                </div>
+                            </div>
+                            <button mat-raised-button color="primary" (click)="addFields()">Add New Fields</button>
+                        </mat-card>
+                    </form>
+                    <br>
+                    <button mat-raised-button color="primary" (click)="updateForms($event, myForm.value, item.id)">Update Form</button>
+                    <button mat-raised-button color="warn" class="float-right" (click)="deleteForms($event, item)">Delete Form</button>
+                </mat-card>
+            </div>
+        </li>
+    </ul>
+</mat-card>

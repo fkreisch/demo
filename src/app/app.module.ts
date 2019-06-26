@@ -11,6 +11,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatCardModule } from '@angular/material/card';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
@@ -27,13 +29,15 @@ import { NestedFormComponent } from './Demos/nested-form/nested-form.component';
 import { ArrayFormComponent } from './Demos/array-form/array-form.component';
 
 import { DemoService } from './Demos/demo.service';
+import { ArrayFormControlsComponent } from './Demos/array-form-controls/array-form-controls.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     BasicFormComponent,
     NestedFormComponent,
-    ArrayFormComponent
+    ArrayFormComponent,
+    ArrayFormControlsComponent
   ],
   imports: [
     BrowserModule,
@@ -45,6 +49,8 @@ import { DemoService } from './Demos/demo.service';
     MatButtonModule,
     MatCheckboxModule,
     MatChipsModule,
+    MatCardModule,
+    MatExpansionModule,
     BsDropdownModule.forRoot(),
     TooltipModule.forRoot(),
     ModalModule.forRoot(),

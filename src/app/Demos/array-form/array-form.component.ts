@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
-import { DemoService, DemoId } from '../demo.service';
+import { DemoService } from '../demo.service';
+import { DemoId } from '../interface';
 
 @Component({
   selector: 'app-array-form',
   templateUrl: './array-form.component.html',
   styleUrls: ['./array-form.component.css']
 })
+
 export class ArrayFormComponent implements OnInit {
 
   myForm: FormGroup;
@@ -15,37 +17,36 @@ export class ArrayFormComponent implements OnInit {
   constructor(private fb: FormBuilder, private demoService: DemoService) { }
 
   ngOnInit() {
-    this.demoService.getDemo().subscribe(demo => {
-      this.demo = demo;
-      console.log('Kapjuk a service-ből:', demo);
-    });
-
     this.myForm = this.fb.group({
-      email: '',
-      phones: this.fb.array([])
+      record: '',
+      fields: this.fb.array([])
     });
   }
 
-  get phoneForms() {
-    return this.myForm.get('phones') as FormArray;
+  get fieldForms() {
+    return this.myForm.get('fields') as FormArray;
+  }
+
+  addFields() {
+    const field = this.fb.group({
+      field1: [],
+      field2: [],
+      field3: [],
+    });
+
+    this.fieldForms.push(field);
+  }
+
+  deleteFields(i) {
+    this.fieldForms.removeAt(i);
   }
 
   writeForms() {
     console.log('Küldjük a service-nek:', this.myForm.value);
     this.demoService.addDemo(this.myForm.value);
-  }
-
-  addPhone() {
-    const phone = this.fb.group({
-      area: [],
-      prefix: [],
-      line: [],
+    this.myForm = this.fb.group({
+      record: '',
+      fields: this.fb.array([])
     });
-
-    this.phoneForms.push(phone);
-  }
-
-  deletePhone(i) {
-    this.phoneForms.removeAt(i);
   }
 }
