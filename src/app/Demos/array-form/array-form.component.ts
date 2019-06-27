@@ -42,7 +42,6 @@ export class ArrayFormComponent implements OnInit {
   }
 
   writeForms() {
-    console.log('Küldjük a service-nek:', this.myForm.value);
     this.demoService.addDemo(this.myForm.value);
     this.myForm = this.fb.group({
       record: '',

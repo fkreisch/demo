@@ -7,6 +7,7 @@ import { Demo, DemoId } from './interface';
 @Injectable({
   providedIn: 'root'
 })
+
 export class DemoService {
 
   private demoCollection: AngularFirestoreCollection<Demo>;
@@ -25,24 +26,20 @@ export class DemoService {
         return { id, ...data };
       }))
     );
-    console.log ('GET DATA:', this.demo);
     return this.demo;
   }
 
   addDemo(doc: Demo) {
-    console.log ('POST DATA:', doc);
     this.demoCollection.add(doc);
   }
 
-  deleteDemo(doc: DemoId) {
-    console.log ('DELETE DATA:', doc);
-    this.demoDoc = this.afs.doc(`demo/${doc.id}`);
+  deleteDemo(id: string) {
+    this.demoDoc = this.afs.doc(`demo/${id}`);
     this.demoDoc.delete();
   }
 
   updateDemo(doc: Demo, id: string) {
     this.demoDoc = this.afs.doc(`demo/${id}`);
     this.demoDoc.set(doc, {merge: true});
-    console.log ('UPDATE - demo', doc, id);
   }
 }

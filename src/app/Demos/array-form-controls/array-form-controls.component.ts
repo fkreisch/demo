@@ -17,6 +17,7 @@ export class ArrayFormControlsComponent implements OnInit {
 
   myForm = new FormGroup({
     record: new FormControl(),
+    details: new FormControl(),
     fields: new FormArray([])
   });
 
@@ -25,13 +26,20 @@ export class ArrayFormControlsComponent implements OnInit {
   ngOnInit() {
     this.demoService.getDemo().subscribe(demo => {
       this.demo = demo;
-      console.log('Kapjuk a service-ből:', demo);
     });
   }
 
+  // --> Array field functions BEGIN
   get fieldForms() {
-    // console.log ('FUSS buli, fuss!!!!', this.myForm);
     return this.myForm.get('fields') as FormArray;
+  }
+
+  fillFields(item) {
+    this.fieldForms.clear();
+    item.fields.forEach(ill => {
+      const field = this.fb.group(ill);
+      ill = this.fieldForms.push(field);
+    });
   }
 
   deleteFields(i) {
@@ -44,36 +52,29 @@ export class ArrayFormControlsComponent implements OnInit {
       field2: [],
       field3: [],
     });
-    console.log ('URESET SZURTUNK', this.fieldForms);
     this.fieldForms.push(field);
   }
+  // --> Array field functions END
 
-  editForms(event, i, item) {
-    if (this.itemToEdit === i) {
+  editForms(event, item) {
+    if (this.itemToEdit === item) {
       this.editState = false;
       this.itemToEdit = null;
     } else {
       this.editState = true;
-      this.itemToEdit = i;
-
-      // Filling FormArray from Firebase data
-      this.fieldForms.clear();
-      item.forEach(ill => {
-        const field = this.fb.group(ill);
-        ill = this.fieldForms.push(field);
-      });
+      this.itemToEdit = item;
+      this.fillFields(item);
     }
   }
 
-  deleteForms(event, item) {
-    this.demoService.deleteDemo(item);
+  deleteForms(event, id) {
+    this.demoService.deleteDemo(id);
     this.editState = false;
     this.itemToEdit = null;
   }
 
-  updateForms(event, item, id) {
-    this.demoService.updateDemo(item, id);
-    console.log ('ITEMET küldjük:', item);
+  updateForms(event, id) {
+    this.demoService.updateDemo(this.myForm.value, id);
     this.editState = false;
     this.itemToEdit = null;
   }

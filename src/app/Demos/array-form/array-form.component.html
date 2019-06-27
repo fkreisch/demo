@@ -1,12 +1,15 @@
-ARRAY FORM EXAMPLE --- Value: {{ myForm.value | json }}
-<mat-card>
-    <mat-card-title>
-        Add New Record
-    </mat-card-title>
+<mat-expansion-panel>
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            Add New Record
+        </mat-panel-title>
+    </mat-expansion-panel-header>
     <form [formGroup]="myForm">
-
-        <mat-form-field class="full">
+        <mat-form-field class="col s6">
             <input matInput placeholder="Record" formControlName="record">
+        </mat-form-field>
+        <mat-form-field class="col s6">
+            <input matInput placeholder="Details" formControlName="details">
         </mat-form-field>
         <mat-card>
             <mat-card-subtitle>
@@ -14,26 +17,21 @@ ARRAY FORM EXAMPLE --- Value: {{ myForm.value | json }}
             </mat-card-subtitle>
             <div formArrayName="fields">
                 <div *ngFor="let field of fieldForms.controls; let i=index" [formGroupName]="i">
-
                     <mat-form-field>
                         <input matInput placeholder="Field 1" formControlName="field1">
                     </mat-form-field>
-
                     <mat-form-field>
                         <input matInput placeholder="Field 2" formControlName="field2">
                     </mat-form-field>
-
                     <mat-form-field>
                         <input matInput placeholder="Field 3" formControlName="field3">
                     </mat-form-field>
-
                     <button mat-raised-button color="warn" (click)="deleteFields(i)">Delete</button>
-
                 </div>
             </div>
-            <button mat-raised-button color="primary" (click)="addFields()">Add New Fields</button>
+            <button mat-raised-button color="basic" (click)="addFields()">Add New Fields</button>
         </mat-card>
     </form>
     <br>
     <button mat-raised-button color="primary" (click)="writeForms()">Send Form</button>
-</mat-card>
+</mat-expansion-panel>

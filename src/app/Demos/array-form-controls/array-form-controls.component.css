@@ -1,3 +1,17 @@
 mat-form-field {
     margin-right: 10px;
 }
+
+.collection {
+    border-bottom: 1px solid rgba(0, 0, 0, 0);
+    cursor: pointer;
+    margin: 10px;
+}
+
+.collection :hover {
+    border-bottom: 1px solid rgb(0, 0, 0);
+}
+
+.collection-item :hover {
+    border: none;
+}
